@@ -5,18 +5,16 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormsModule], // Replaced RouterOutlet with FormsModule to enable ngModel
+  imports: [FormsModule], 
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
 export class App {
-  // Define the note object to hold our form data
   note = {
     title: '',
     content: ''
   };
 
-  // Inject HttpClient to communicate with the Express backend
   constructor(private http: HttpClient) {}
 
   // Define the form submission handler
