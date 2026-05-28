@@ -1,0 +1,31 @@
+# Environment variables (Unsafe to push!)
+.env
+
+# Dependencies (Too large, generated automatically)
+node_modules/
+
+# Build output and temp files from Angular/Node
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor and IDE configurations
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+ehthumbs.db
+Thumbs.db
