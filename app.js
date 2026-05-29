@@ -28,17 +28,37 @@ app.use("/api/products", notesRoutes);
 // Notes API endpoint to receive data from frontend
 app.post('/api/notes', async (req, res) => {
   const { title, content } = req.body;
+  // Validation Check
+  if (!title || !content || !title.trim() || !content.trim()) {
+    return res.status(400).json({ 
+      message: 'Validation failed. Both title and content are required and cannot be empty.' 
+    });
+  }
+  
   console.log('Received new note from frontend:', title, content);
 
   try {
     const notesFilePath = path.join(__dirname, 'notes.json');
     
-    // 1. Read existing notes from notes.json
-    const fileData = await fs.readFile(notesFilePath, 'utf8');
+    // Read existing notes from notes.json
+    let fileData;
+    try {
+      fileData = await fs.readFile(notesFilePath, 'utf8');
+    } catch (readError) {
+      // If file doesn't exist (ENOENT), default to an empty array string
+      if (readError.code === 'ENOENT') {
+        fileData = '[]';
+      } else {
+        throw readError;
+      }
+    }
     const notes = JSON.parse(fileData || '[]');
     
     // 2. Add the new note to the array
-    notes.push({ title, content });
+    notes.push({ 
+      title:title.trim(), 
+      content:content.trim() 
+    });
     
     // 3. Write the updated array back to notes.json
     await fs.writeFile(notesFilePath, JSON.stringify(notes, null, 2));
@@ -49,6 +69,7 @@ app.post('/api/notes', async (req, res) => {
     res.status(500).json({ message: 'Internal server error while saving the note.' });
   }
 });
+
 
 const start = async () => {
   try {
