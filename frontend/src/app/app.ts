@@ -18,13 +18,12 @@ export class App {
   constructor(private http: HttpClient) {}
 
   // Define the form submission handler
-  onSubmit() {
+ onSubmit() {
     if (this.note.title && this.note.content) {
       this.http.post('http://localhost:3000/api/notes', this.note).subscribe({
         next: (response) => {
           console.log('Backend response:', response);
           alert('Note saved successfully!');
-          // Clear the form fields after successful save
           this.note = { title: '', content: '' };
         },
         error: (error) => {
