@@ -3,7 +3,7 @@ const Note = require("..models/note");
 
 // get product
 
-const getAllProducts = async(req, res) => {
+const getAllNotes = async(req, res) => {
 
     const {title, content, sort, select} = req.query;
     const queryObject = {};
@@ -35,7 +35,7 @@ const getAllProducts = async(req, res) => {
 
 // Get product testing
 
-const getAllProductsTesting = async(req, res) => {
+const getAllNotesTesting = async(req, res) => {
 
     let page = Number(req.query.page) || 1;
     let limit = Number(req.query.limit) || 2;
@@ -52,7 +52,7 @@ const getAllProductsTesting = async(req, res) => {
 
 // POST 
 
-const createProduct = async (req, res) => {
+const createNote = async (req, res) => {
     try {
         const { title, content } = req.body;
         
@@ -70,7 +70,7 @@ const createProduct = async (req, res) => {
 
 // DELETE
 
-const deleteProduct = async (req, res) => {
+const deleteNote = async (req, res) => {
     try {
         const { id } = req.params;
         const note = await Note.findByIdAndDelete(id);
@@ -87,8 +87,8 @@ const deleteProduct = async (req, res) => {
 
 
 module.exports = {
-    getAllProducts,
-    getAllProductsTesting,
-    createProduct,
-    deleteProduct
+    getAllNotes,
+    getAllNotesTesting,
+    createNote,
+    deleteNote
 };
