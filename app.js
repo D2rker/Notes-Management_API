@@ -54,13 +54,13 @@ app.post('/api/notes', async (req, res) => {
     }
     const notes = JSON.parse(fileData || '[]');
     
-    // 2. Add the new note to the array
+    // Add the new note to the array
     notes.push({ 
       title:title.trim(), 
       content:content.trim() 
     });
     
-    // 3. Write the updated array back to notes.json
+    // Write the updated array back to notes.json
     await fs.writeFile(notesFilePath, JSON.stringify(notes, null, 2));
     
     res.status(201).json({ message: 'Note created successfully!', note: { title, content } });
