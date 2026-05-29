@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 
 // middleware or set routeres
-app.use("/api/products", notesRoute);
+app.use("/api/products", notesRoutes);
 
 // Notes API endpoint to receive data from frontend
 app.post('/api/notes', async (req, res) => {
