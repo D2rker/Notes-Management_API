@@ -15,7 +15,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-const productRoutes = require('./routes/product');
+const notesRoutes = require('./routes/route');
 
 app.get('/', (req, res) => {
   console.log('Hello World');
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 
 // middleware or set routeres
-app.use("/api/products", productRoutes);
+app.use("/api/products", notesRoute);
 
 // Notes API endpoint to receive data from frontend
 app.post('/api/notes', async (req, res) => {
