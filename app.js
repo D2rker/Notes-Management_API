@@ -1,4 +1,3 @@
-// d2rker/notes-management_api/Notes-Management_API-5adc6016c1df201b4cec690d2d50a70b399c55b0/app.js
 const dns = require('node:dns');
 dns.setServers(['8.8.8.8', '1.1.1.1']);
 
