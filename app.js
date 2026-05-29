@@ -7,8 +7,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const connectDB = require('./database/connect');
-const fs = require('fs').promises;
-const path = require('path');
+
 
 const PORT = 3000;
 
