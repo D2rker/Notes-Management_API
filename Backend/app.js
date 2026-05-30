@@ -6,8 +6,6 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const connectDB = require('./database/sever');
-const fs = require('fs').promises;
-const path = require('path');
 const Note = require('./models/note');
 
 const PORT = 3000;
@@ -15,23 +13,30 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// const productRoutes = require('./routes/product');
 
 app.get('/', (req, res) => {
   console.log('Hello World');
 });
 
+/* Fetch all notes from MongoDB */
+app.get('/api/notes', async (req, res) => {
+  try {
+    const notes = await Note.find({});
+    res.status(200).json(notes);
+  } catch (error) {
+    console.error('Error fetching notes:', error);
+    res.status(500).json({ message: 'Internal server error while fetching notes.' });
+  }
+});
 
-// middleware or set routeres
-// app.use("/api/products", productRoutes);
 
-// Notes API endpoint to receive data from frontend
+/* Notes API endpoint to receive data from frontend*/
 app.post('/api/notes', async (req, res) => {
   const { title, content } = req.body;
   console.log('Received new note from frontend:', title, content);
 
   try {
-    // Save the new note directly to MongoDB
+    /* Save the new note directly to MongoDB*/
     const newNote = await Note.create({ title, content });
 
     res.status(201).json({ message: 'Note created successfully!', note: newNote });
