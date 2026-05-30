@@ -5,16 +5,17 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const connectDB = require('./database/connect');
+const connectDB = require('./database/sever');
 const fs = require('fs').promises;
 const path = require('path');
+const Note = require('./models/note');
 
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-const productRoutes = require('./routes/product');
+// const productRoutes = require('./routes/product');
 
 app.get('/', (req, res) => {
   console.log('Hello World');
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
 
 
 // middleware or set routeres
-app.use("/api/products", productRoutes);
+// app.use("/api/products", productRoutes);
 
 // Notes API endpoint to receive data from frontend
 app.post('/api/notes', async (req, res) => {
@@ -30,21 +31,12 @@ app.post('/api/notes', async (req, res) => {
   console.log('Received new note from frontend:', title, content);
 
   try {
-    const notesFilePath = path.join(__dirname, 'notes.json');
-    
-    // 1. Read existing notes from notes.json
-    const fileData = await fs.readFile(notesFilePath, 'utf8');
-    const notes = JSON.parse(fileData || '[]');
-    
-    // 2. Add the new note to the array
-    notes.push({ title, content });
-    
-    // 3. Write the updated array back to notes.json
-    await fs.writeFile(notesFilePath, JSON.stringify(notes, null, 2));
-    
-    res.status(201).json({ message: 'Note created successfully!', note: { title, content } });
+    // Save the new note directly to MongoDB
+    const newNote = await Note.create({ title, content });
+
+    res.status(201).json({ message: 'Note created successfully!', note: newNote });
   } catch (error) {
-    console.error('Error writing to notes.json:', error);
+    console.error('Error saving to database:', error);
     res.status(500).json({ message: 'Internal server error while saving the note.' });
   }
 });

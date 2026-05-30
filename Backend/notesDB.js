@@ -5,10 +5,6 @@ require('dotenv').config();
 
 const connectDB = require('./database/sever');
 const Note = require('./models/note');
-const NoteJSON = require('./notes.json');
-
-const connectDB = require('../database/connect');
-const Note = require('../models/note');
 const NoteJSON = require('../notes.json');
 
 const start = async () => {
