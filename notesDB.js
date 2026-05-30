@@ -2,8 +2,8 @@ const dns = require('node:dns');
 dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 require('dotenv').config();
-const connectDB = require('./database/connect');
-const Note = require('models/note');
+const connectDB = require('./database/sever');
+const Note = require('./models/note');
 const NoteJSON = require('./notes.json');
 
 const start = async () => {
