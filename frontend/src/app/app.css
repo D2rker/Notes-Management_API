@@ -1,5 +1,9 @@
 .app-padding-wrapper {
   padding: 40px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: auto;
 }
 
 .notes-management-container {
@@ -76,6 +80,8 @@ button[type="submit"]:hover {
   font-family: var(--inter-font);
   display: flex;
   justify-content: center;
+  min-height: 100vh;
+  width: 100%;
 }
 [ngTabs] {
   overflow: hidden;
@@ -101,7 +107,7 @@ button[type="submit"]:hover {
   cursor: pointer;
   text-align: center;
   color: #666666;
-  font-weight: 500;
+  font-weight: bold;
   border-bottom: 2px solid transparent;
   transition: all 0.2s ease;
 }
@@ -183,9 +189,16 @@ button[type="submit"]:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
 .note-title {
   margin-top: 0;
-  margin-bottom: 10px;
   color: #333333;
   font-size: 1.1rem;
   font-weight: 600;
@@ -212,4 +225,58 @@ button[type="submit"]:hover {
   text-align: center;
   color: #888888;
   padding: 30px 0;
+}
+
+/* --- Note Actions & Edit Form --- */
+.note-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.note-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-edit, .btn-save {
+  background-color: #f1f3f5;
+  color: #007bff;
+}
+.btn-edit:hover, .btn-save:hover {
+  background-color: #e2e6ea;
+}
+
+.btn-delete, .btn-cancel {
+  background-color: #fff0f0;
+  color: #dc3545;
+}
+.btn-delete:hover, .btn-cancel:hover {
+  background-color: #ffe0e0;
+}
+
+.btn-save, .btn-cancel {
+  padding: 8px 14px !important;
+}
+
+.edit-input, .edit-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.edit-input {
+  margin-bottom: 0;
 }

@@ -46,6 +46,39 @@ app.post('/api/notes', async (req, res) => {
   }
 });
 
+/* Update an existing note */
+app.put('/api/notes/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+
+  try {
+    const updatedNote = await Note.findByIdAndUpdate(id, { title, content }, { new: true });
+    if (!updatedNote) {
+      return res.status(404).json({ message: 'Note not found' });
+    }
+    res.status(200).json({ message: 'Note updated successfully!', note: updatedNote });
+  } catch (error) {
+    console.error('Error updating note:', error);
+    res.status(500).json({ message: 'Internal server error while updating the note.' });
+  }
+});
+
+/* Delete a note */
+app.delete('/api/notes/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedNote = await Note.findByIdAndDelete(id);
+    if (!deletedNote) {
+      return res.status(404).json({ message: 'Note not found' });
+    }
+    res.status(200).json({ message: 'Note deleted successfully!' });
+  } catch (error) {
+    console.error('Error deleting note:', error);
+    res.status(500).json({ message: 'Internal server error while deleting the note.' });
+  }
+});
+
 const start = async () => {
   try {
     await connectDB(process.env.MongoDB_URI);

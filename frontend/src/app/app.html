@@ -6,40 +6,10 @@
   </div>
   <div class="sliding-window">
     <div ngTabPanel value="write">
-      <div class="notes-management-container">
-          <h2>Notes Management</h2>
-          
-          <form (ngSubmit) ="onSubmit()">
-            <div class="form-group">
-              <label for="title">Title:</label>
-              <input type="text" id="title" name="title" [(ngModel)]="note.title" placeholder="Enter note title" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="content">Content:</label>
-              <textarea id="content" name="content" rows="5" [(ngModel)]="note.content" placeholder="Enter note content" required></textarea>
-            </div>
-            
-            <button type="submit">Save Note</button>
-          </form>
-      </div>
+      <app-makenotes (noteCreated)="onNoteCreated()"></app-makenotes>
     </div>
     <div ngTabPanel value="list">
-      <div class="notes-management-container">
-          <h2>All Notes</h2>
-          
-          <div class="empty-state" *ngIf="notes.length === 0">
-            <p>No notes to display yet. Create your first note!</p>
-          </div>
-
-          <div class="notes-grid" *ngIf="notes.length > 0">
-            <div class="note-card" *ngFor="let n of notes">
-              <h3 class="note-title">{{ n.title }}</h3>
-              <p class="note-content">{{ n.content }}</p>
-              <p class="note-date">Created: {{ n.createdAt | date:'medium' }}</p>
-            </div>
-          </div>
-      </div>
+      <app-getnotes [notes]="notes" (notesChanged)="loadNotes()"></app-getnotes>
     </div>
   </div>
 </div>

@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { getNotes } from './notes.api';
+import { MakeNotesComponent } from './MakeNotes/makenotes';
+import { GetNotesComponent } from './getNotes/getnotes';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule, MakeNotesComponent, GetNotesComponent], 
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  styleUrls: ['./app.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class App implements OnInit {
-  note = {
-    title: '',
-    content: ''
-  };
-  
   notes: any[] = [];
-
-  baseUrl = 'http://localhost:3000/api/';
 
   activeTab = 'write';
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   ngOnInit() {
     this.loadNotes();
@@ -36,32 +32,15 @@ export class App implements OnInit {
   }
 
   loadNotes() {
-    this.http.get<any[]>(`${this.baseUrl}notes`).subscribe({
-      next: (data) => {
+    getNotes()
+      .then((data: any) => {
         this.notes = data;
-      },
-      error: (err) => console.error('Error fetching notes:', err)
-    });
+      })
+      .catch((err: any) => console.error('Error fetching notes:', err));
   }
   
-  // Define the form submission handler
-  onSubmit() {
-    if (this.note.title && this.note.content) {
-      this.http.post(`${this.baseUrl}notes`, this.note).subscribe({
-        next: (response) => {
-          console.log('Backend response:', response);
-          alert('Note saved successfully!');
-          this.note = { title: '', content: '' };
-          this.loadNotes(); // Refresh the notes list
-          this.setActiveTab('list'); // Automatically switch to the list tab
-        },
-        error: (error) => {
-          console.error('Error saving note:', error);
-          alert('Error saving note. Please try again.');
-        }
-      });
-    } else {
-      alert('Please fill in both the title and content fields.');
-    }
+  onNoteCreated() {
+    this.loadNotes();
+    this.setActiveTab('list');
   }
 }

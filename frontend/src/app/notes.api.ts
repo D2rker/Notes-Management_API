@@ -2,9 +2,8 @@ const BASE_URL = 'http://localhost:3000/api/notes';
 
 /**
  * Fetches all notes from the server.
- * @returns {Promise<Array>} A promise that resolves to an array of notes.
  */
-export const getNotes = async () => {
+export const getNotes = async (): Promise<any[]> => {
   try {
     const response = await fetch(BASE_URL);
     if (!response.ok) {
@@ -13,18 +12,14 @@ export const getNotes = async () => {
     return await response.json();
   } catch (error) {
     console.error("Error fetching notes:", error);
-    throw error; // Re-throw to allow caller to handle
+    throw error;
   }
 };
 
 /**
  * Creates a new note.
- * @param {object} note - The note object to create.
- * @param {string} note.title - The title of the note.
- * @param {string} note.content - The content of the note.
- * @returns {Promise<object>} A promise that resolves to the created note object.
  */
-export const createNote = async (note) => {
+export const createNote = async (note: { title: string; content: string }): Promise<any> => {
   try {
     const response = await fetch(BASE_URL, {
       method: 'POST',
@@ -36,7 +31,12 @@ export const createNote = async (note) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+    const text = await response.text();
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch (e) {
+      return { message: text }; // Fallback if backend returns plain text
+    }
   } catch (error) {
     console.error("Error creating note:", error);
     throw error;
@@ -45,11 +45,8 @@ export const createNote = async (note) => {
 
 /**
  * Updates an existing note.
- * @param {string} id - The ID of the note to update.
- * @param {object} note - The note object with updated data.
- * @returns {Promise<object>} A promise that resolves to the updated note object.
  */
-export const updateNote = async (id, note) => {
+export const updateNote = async (id: string, note: { title: string; content: string }): Promise<any> => {
   try {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: 'PUT',
@@ -61,7 +58,12 @@ export const updateNote = async (id, note) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+    const text = await response.text();
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch (e) {
+      return { message: text };
+    }
   } catch (error) {
     console.error(`Error updating note ${id}:`, error);
     throw error;
@@ -70,10 +72,8 @@ export const updateNote = async (id, note) => {
 
 /**
  * Deletes a note by its ID.
- * @param {string} id 
- * @returns {Promise<object>} A promise that resolves to a confirmation message.
  */
-export const deleteNote = async (id) => {
+export const deleteNote = async (id: string): Promise<any> => {
   try {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: 'DELETE',
@@ -81,7 +81,12 @@ export const deleteNote = async (id) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+    const text = await response.text();
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch (e) {
+      return { message: text };
+    }
   } catch (error) {
     console.error(`Error deleting note ${id}:`, error);
     throw error;
