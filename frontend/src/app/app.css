@@ -1,17 +1,19 @@
+.app-padding-wrapper {
+  padding: 40px 20px;
+}
+
 .notes-management-container {
-  max-width: 600px;
-  margin: 40px auto;
   padding: 30px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .notes-management-container h2 {
   margin-top: 0;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   color: #333333;
+  font-weight: 600;
   text-align: center;
 }
 
@@ -31,6 +33,7 @@
   width: 100%;
   padding: 12px;
   border: 1px solid #cccccc;
+  background-color: #fcfcfc;
   border-radius: 6px;
   box-sizing: border-box;
   font-size: 16px;
@@ -41,17 +44,19 @@
 .form-group input[type="text"]:focus,
 .form-group textarea:focus {
   outline: none;
+  background-color: #ffffff;
   border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
 }
 
 .form-group textarea {
-  resize: vertical;
+  resize: none;
 }
 
 button[type="submit"] {
   display: block;
   width: 100%;
+  margin-top: 25px;
   padding: 14px;
   background-color: #007bff;
   color: #ffffff;
@@ -65,4 +70,146 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #0056b3;
+}
+
+:host {
+  font-family: var(--inter-font);
+  display: flex;
+  justify-content: center;
+}
+[ngTabs] {
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eef0f2;
+}
+[ngTabList] {
+  padding: 0;
+  display: flex;
+  list-style: none;
+  position: relative;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f8f9fa;
+}
+[ngTab] {
+  flex: 1;
+  outline: none;
+  padding: 1rem 0;
+  cursor: pointer;
+  text-align: center;
+  color: #666666;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+[ngTab]:focus-visible {
+  background-color: #e9ecef;
+}
+[ngTab]:hover {
+  background-color: #e2e6ea;
+  color: #333333;
+}
+[ngTab][aria-selected='true'] {
+  color: #007bff;
+  background-color: #ffffff;
+  border-bottom: 2px solid #007bff;
+}
+.sliding-window {
+  width: 200%;
+  display: flex;
+  align-items: flex-start;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[ngTabList]:has([ngTab]:nth-child(1)[aria-selected='true']) ~ .sliding-window {
+  transform: translateX(0%);
+}
+[ngTabList]:has([ngTab]:nth-child(2)[aria-selected='true']) ~ .sliding-window {
+  transform: translateX(-50%);
+}
+[ngTabPanel] {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 50%;
+  width: 50%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+[ngTabPanel]:focus-visible {
+  outline: none;
+}
+
+/* --- Dynamic Panel Heights --- */
+[ngTabList]:has([ngTab]:nth-child(1)[aria-selected='true']) ~ .sliding-window [ngTabPanel]:nth-child(2) {
+  height: 0;
+  transition: height 0s 0.3s; /* Hide after slide completes */
+}
+[ngTabList]:has([ngTab]:nth-child(1)[aria-selected='true']) ~ .sliding-window [ngTabPanel]:nth-child(1) {
+  height: auto;
+  transition: height 0s 0s;
+}
+
+[ngTabList]:has([ngTab]:nth-child(2)[aria-selected='true']) ~ .sliding-window [ngTabPanel]:nth-child(1) {
+  height: 0;
+  transition: height 0s 0.3s; /* Hide after slide completes */
+}
+[ngTabList]:has([ngTab]:nth-child(2)[aria-selected='true']) ~ .sliding-window [ngTabPanel]:nth-child(2) {
+  height: auto;
+  transition: height 0s 0s;
+}
+
+/* --- Notes Display Styles --- */
+.notes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.note-card {
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #eaeaea;
+  /* border-left: 4px solid #007bff; */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.note-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.note-content {
+  margin: 0;
+  color: #444444;
+  line-height: 1.5;
+  white-space: pre-wrap; /* Honors line breaks from the textarea */
+  word-break: break-word; /* Prevents long unbreakable text from ruining layout */
+}
+
+.note-date {
+  font-size: 0.8rem;
+  color: #888888;
+  margin-top: 15px;
+  margin-bottom: 0;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.empty-state {
+  text-align: center;
+  color: #888888;
+  padding: 30px 0;
 }
