@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-@Component({
+Component({
   selector: 'app-root',
   standalone: true,
   imports: [FormsModule], 
