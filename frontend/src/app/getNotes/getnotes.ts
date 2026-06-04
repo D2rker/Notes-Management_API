@@ -23,8 +23,7 @@ export class GetNotesComponent {
     }
     if (confirm('Are you sure you want to delete this note?')) {
       const previousNotes = [...this.notes];
-      this.notes = this.notes.filter(n => (n.id || n._id) !== id);
-
+      this.notesChanged.emit();
       apiDeleteNote(id)
         .catch((err: any) => {
           this.notes = previousNotes;

@@ -1,17 +1,25 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllNotes, getAllNotesTesting, createNote, deleteNote} = require('../controllers/controllers');
+const { 
+    getAllNotes, 
+    getAllNotesTesting, 
+    getSingleNote, 
+    createNote, 
+    updateNote, 
+    deleteNote 
+} = require('../controllers/note.controller'); // Fixed path & imports
 
-router.route("/").get(getAllNotes);
-router.route("/testing").get(getAllNotesTesting);
+router.route("/")
+    .get(getAllNotes)
+    .post(createNote);
 
-router.route("/").post(createNote);
-router.route("/:id").delete(deleteNote);
+router.route("/testing")
+    .get(getAllNotesTesting);
 
 router.route("/:id")
     .get(getSingleNote)
     .put(updateNote)
-    .delete(deleteNote);
+    .delete(deleteNote); // Removed duplicates
 
 module.exports = router;

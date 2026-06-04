@@ -7,6 +7,9 @@ const cors = require('cors');
 const app = express();
 const connectDB = require('./database/sever');
 const Note = require('./models/note');
+const noteRoutes = require('./routes/note.routes');
+
+app.use('/api/notes', noteRoutes);
 
 const PORT = 3000;
 

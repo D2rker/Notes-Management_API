@@ -27,7 +27,7 @@ const getAllNotes = async (req, res) => {
     }
 
     const myData = await apiData;
-    res.status(200).json({ myData });
+    res.status(200).json(myData);
 };
 
 /* GET single note */
@@ -53,7 +53,7 @@ const getAllNotesTesting = async (req, res) => {
 
     let apiData = Note.find({}).skip(skip).limit(limit);
     const myData = await apiData;
-    res.status(200).json({ myData });
+    res.status(200).json(myData);
 };
 
 /* POST note */
