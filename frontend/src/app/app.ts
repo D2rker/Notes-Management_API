@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
+
+const baseUrl = 'http://localhost:3000/api/';
+
 export class App {
   note = {
     title: '',
@@ -17,6 +20,7 @@ export class App {
 
   constructor(private http: HttpClient) {}
 
+  
   // Define the form submission handler
  onSubmit() {
     if (this.note.title && this.note.content) {
